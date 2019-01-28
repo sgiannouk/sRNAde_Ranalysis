@@ -125,8 +125,8 @@ for(i in 1:(length(sampletypevalues)-1)) {
         result <- TMMvalues_selected[selected, ]
         
         # Exporting the normalised results table containing the selected genes below the chosen threshold
-        print(paste("Exporting NOISeq normalised table containing ONLY selected genes (NOISeq probability >", noiseq_prob, ") to: ",outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_topGenesBelow", gsub("[.]", "", noiseq_prob), ".csv", sep=""))
-        write.table(data.frame("name"=rownames(result), result), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_topGenesBelow", gsub("[.]", "", noiseq_prob), ".csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
+        print(paste("Exporting NOISeq normalised table containing ONLY selected genes (NOISeq probability >", noiseq_prob, ") to: ",outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_topGenesAbove", gsub("[.]", "", noiseq_prob), ".csv", sep=""))
+        write.table(data.frame("name"=rownames(result), result), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_topGenesAbove", gsub("[.]", "", noiseq_prob), ".csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
         # Exporting the normalised results table containing ALL genes
         print(paste("Exporting NOISeq normalised table containing all genes to: ", outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_allGenes.csv", sep=""))
         write.table(data.frame("name"=rownames(TMMvalues_selected), TMMvalues_selected), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_allGenes.csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
