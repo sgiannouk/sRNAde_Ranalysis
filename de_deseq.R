@@ -131,11 +131,11 @@ for(i in 1:(length(sampletypevalues)-1)) {
         result <- ncounts_selected[selected, ]
 
         # Exporting the normalised results table containing the selected genes with log2FoldChange greater than 1 and adjusted p value lower than the user-input value
-        print(paste("Exporting DESeq normalised table containing ONLY selected genes (adjusted P value < ", pvalue, ") to: ", outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_topGenesBelow", gsub("[.]", "", pvalue), ".csv", sep=""))
-        write.table(data.frame("name"=rownames(result), result), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_topGenesBelow", gsub("[.]", "", pvalue), ".csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
+        print(paste("Exporting DESeq normalised table containing ONLY selected genes (adjusted P value < ", pvalue, ") to: ", outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_topGenesBelow", gsub("[.]", "", pvalue), ".csv", sep=""))
+        write.table(data.frame("name"=rownames(result), result), file=paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_topGenesBelow", gsub("[.]", "", pvalue), ".csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
         # Exporting the normalised results table containing ALL Genesde
-        print(paste("Exporting DESeq normalised table containing all genes to: ", outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_allGenes.csv", sep=""))
-        write.table(data.frame("name"=rownames(ncounts_selected), ncounts_selected), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_allGenes.csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
+        print(paste("Exporting DESeq normalised table containing all genes to: ", outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_allGenes.csv", sep=""))
+        write.table(data.frame("name"=rownames(ncounts_selected), ncounts_selected), file=paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_allGenes.csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
         
         # Generating a matrix containing the mean normalised results per group per (ALL) gene
         mean_ncounts_selected <- as.data.frame(cbind(mean_Agroup=rowMeans(ncounts_selected[ ,which(groups==sampletypevalues[i])]), 
@@ -159,7 +159,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
                points(log2(res[ ,1]+1)[gn.selected], log2(res[ ,2]+1)[gn.selected], col="red", pch=20, cex=.8)
         }
         print("Average expression values of each condition and highlight the features declared as differentially expressed...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_expressionPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_expressionPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         expression_plot(mean_ncounts_selected)
         dev.off()
         
@@ -167,7 +167,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
         # Plotting the log2 fold changes against the mean normalised counts, colouring in red those
         # genes that are significant
         print("Plotting the log2 fold changes against the mean normalised counts...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         plotMA(curresult, col = ifelse(curresult$padj>=pvalue, "gray32", "red3"), cex=.5, main="MAplot")
         abline(h=c(-1,1), col="dodgerblue", lwd=2)
         dev.off()
@@ -185,7 +185,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
         resultDESeq$pch <- 19
         resultDESeq$pch[resultDESeq$pvalue == 0] <- 6
         print("Generating the volcano plot...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_volcanoPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_volcanoPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         plot(resultDESeq$log2FoldChange,
              resultDESeq$sig,
              col=cols, panel.first=grid(),

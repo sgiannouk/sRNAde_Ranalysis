@@ -151,7 +151,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
           with(subset(res, prob>=thresh), points(mean, log2FoldChange, col="red", pch=20, cex=.8))
         }
         print("Plotting the log2 fold changes against the mean normalised counts...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_MAPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         maplot(mean_ncounts_selected, 
                xlab = "mean of normalized counts", 
                ylab = "log2 fold change", 

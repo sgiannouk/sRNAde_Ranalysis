@@ -167,7 +167,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
         # Plotting the log2 fold changes against the mean normalised counts, colouring in red those 
         # genes that are significant
         print("Plotting the log2 fold changes against the mean normalised counts...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq2_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq2_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         plotMA(results, alpha=pvalue, cex=.5, main="MAplot")
         abline(h=c(-1,1), col="dodgerblue", lwd=2)
         dev.off()
