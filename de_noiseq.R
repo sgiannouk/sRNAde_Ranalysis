@@ -27,7 +27,7 @@ if (length(args) == 4) {
   #   cat("ERROR - The packrat directory could not be found...\nEXITING!\n")
   #   quit()
   # }
-} else if (length(args) == 6) {
+} else if (length(args) == 5) {
   if (!file.exists(args[1])) {
     cat("ERROR - The input matrix does NOT exist...\nEXITING!\n")
     quit()
