@@ -133,20 +133,20 @@ for(i in 1:(length(sampletypevalues)-1)) {
         # Exporting the normalised results table containing the selected genes with log2FoldChange greater than 1 and adjusted p value lower than the user-input value
         print(paste("Exporting DESeq normalised table containing ONLY selected genes (adjusted P value < ", pvalue, ") to: ", outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_topGenesBelow", gsub("[.]", "", pvalue), ".csv", sep=""))
         write.table(data.frame("name"=rownames(result), result), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_topGenesBelow", gsub("[.]", "", pvalue), ".csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
-        # Exporting the normalised results table containing ALL Genes
+        # Exporting the normalised results table containing ALL Genesde
         print(paste("Exporting DESeq normalised table containing all genes to: ", outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_allGenes.csv", sep=""))
         write.table(data.frame("name"=rownames(ncounts_selected), ncounts_selected), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_allGenes.csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
         
         # Generating a matrix containing the mean normalised results per group per (ALL) gene
-        mean_ncounts_selected <- as.data.frame(cbind(mean_Agroup=rowMeans(ncounts_selected[ ,which(groups==sampletypevalues[j])]), 
-                                                     mean_Bgroup=rowMeans(ncounts_selected[ ,which(groups==sampletypevalues[i])]),
+        mean_ncounts_selected <- as.data.frame(cbind(mean_Agroup=rowMeans(ncounts_selected[ ,which(groups==sampletypevalues[i])]), 
+                                                     mean_Bgroup=rowMeans(ncounts_selected[ ,which(groups==sampletypevalues[j])]),
                                                      ncounts_selected[,c("FoldChange","log2FoldChange","pvalue","padj")]))
-        colnames(mean_ncounts_selected)[1:2] <- c(paste("mean_",sampletypevalues[j],sep=""), paste("mean_",sampletypevalues[i],sep=""))
+        colnames(mean_ncounts_selected)[1:2] <- c(paste("mean_",sampletypevalues[i],sep=""), paste("mean_",sampletypevalues[j],sep=""))
         # Order dataframe based on the padj
         mean_ncounts_selected <- mean_ncounts_selected[order(mean_ncounts_selected$padj),]
         # Exporting the generated matrix containing the mean normalised results per group per (ALL) gene
-        print(paste("Exporting DESeq mean normalised results per group per (all) gene to: ", outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_meanGroupsAllGenes.csv", sep=""))
-        write.table(data.frame("name"=rownames(mean_ncounts_selected), mean_ncounts_selected), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_deseq_meanGroupsAllGenes.csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
+        print(paste("Exporting DESeq mean normalised results per group per (all) gene to: ", outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_meanGroupsAllGenes.csv", sep=""))
+        write.table(data.frame("name"=rownames(mean_ncounts_selected), mean_ncounts_selected), file=paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_meanGroupsAllGenes.csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
         
         
         # Expression plot
