@@ -13,7 +13,7 @@ if (length(args) == 4) {
   }
   matfile <- read.delim(args[1], header=TRUE, row.names=1)   # Input the input delimited text file containing the count matrix
   groups <- unlist(strsplit(args[2], ","))  # Sample description
-  sampletypevalues <- rev(unique(groups))  # Getting the group levels
+  sampletypevalues <- unique(groups)  # Getting the group levels
   if (!dir.exists(args[3])) {
     cat("ERROR - The output directory does NOT exist...\nEXITING!\n")
     quit()
@@ -34,7 +34,7 @@ if (length(args) == 4) {
   }
   matfile <- read.delim(args[1], header=TRUE, row.names=1)   # Input the input delimited text file containing the count matrix
   groups <- unlist(strsplit(args[2], ","))  # Sample description
-  sampletypevalues <- rev(unique(groups))  # Getting the group levels
+  sampletypevalues <- unique(groups)  # Getting the group levels
   if (!dir.exists(args[3])) {
     cat("ERROR - The output directory does NOT exist...\nEXITING!\n")
     quit()
@@ -50,7 +50,7 @@ if (length(args) == 4) {
 
 # matfile <- read.delim("/Users/stavris/R/projects/example_project/example_matrix.mat", header=TRUE, row.names=1)
 # groups <- unlist(strsplit("cell,cell,cell,exosomes,exosomes,exosomes", ","))
-# sampletypevalues <- rev(unique(groups))
+# sampletypevalues <- unique(groups)
 # outdir <- "/Users/stavris/R/projects/example_project"
 # basename <- "mature_sense_minExpr5_RCadj"
 # pvalue <- 0.05
