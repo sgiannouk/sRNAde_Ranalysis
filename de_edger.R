@@ -12,7 +12,7 @@ if (length(args) == 4) {
   }
   matfile <- read.delim(args[1], header=TRUE, row.names=1)   # Input the input delimited text file containing the count matrix
   groups <- unlist(strsplit(args[2], ","))  # Sample description
-  sampletypevalues <- rev(unique(groups))  # Getting the group levels
+  sampletypevalues <- unique(groups)  # Getting the group levels
   if (!dir.exists(args[3])) {
     cat("ERROR - The output directory does NOT exist...\nEXITING!\n")
     quit()
@@ -33,7 +33,7 @@ if (length(args) == 4) {
   }
   matfile <- read.delim(args[1], header=TRUE, row.names=1)   # Input the input delimited text file containing the count matrix
   groups <- unlist(strsplit(args[2], ","))  # Sample description
-  sampletypevalues <- rev(unique(groups))  # Getting the group levels
+  sampletypevalues <- unique(groups)  # Getting the group levels
   if (!dir.exists(args[3])) {
     cat("ERROR - The output directory does NOT exist...\nEXITING!\n")
     quit()
@@ -50,7 +50,7 @@ if (length(args) == 4) {
 # matfile <- read.delim("/Users/stavris/R/projects/example_project/example_matrix.mat", header=TRUE, row.names=1)
 # names(matfile) <- gsub(x = names(matfile), pattern = "\\.", replacement = " ")
 # groups <- unlist(strsplit("cell,cell,cell,exosomes,exosomes,exosomes", ","))
-# sampletypevalues <- rev(unique(groups))
+# sampletypevalues <- unique(groups)
 # outdir <- "/Users/stavris/R/projects/example_project"
 # basename <- "mature_sense_minExpr5_RCadj"
 # pvalue <- 0.05
@@ -113,10 +113,10 @@ for(i in 1:(length(sampletypevalues)-1)) {
         selected <- which(data$padj<=pvalue) 
         
         # Generating a matrix containing the mean normalised results per group per (ALL) gene
-        mean_ncounts_selected <- as.data.frame(cbind(mean_Agroup=rowMeans(data[ ,which(groups==sampletypevalues[j])]), 
-                                                     mean_Bgroup=rowMeans(data[ ,which(groups==sampletypevalues[i])]),
+        mean_ncounts_selected <- as.data.frame(cbind(mean_Agroup=rowMeans(data[ ,which(groups==sampletypevalues[i])]), 
+                                                     mean_Bgroup=rowMeans(data[ ,which(groups==sampletypevalues[j])]),
                                                      data[,c("log2FoldChange", "pvalue", "padj")]))
-        colnames(mean_ncounts_selected)[1:2] <- c(paste("mean_",sampletypevalues[j],sep=""), paste("mean_",sampletypevalues[i],sep=""))
+        colnames(mean_ncounts_selected)[1:2] <- c(paste("mean_",sampletypevalues[i],sep=""), paste("mean_",sampletypevalues[j],sep=""))
         # Inserting FoldChange calculations
         mean_ncounts_selected <- as.data.frame(cbind(mean_ncounts_selected[,1:2],
                                                      transform(mean_ncounts_selected[0], FoldChange = (mean_ncounts_selected[ ,2]+1) / (mean_ncounts_selected[ ,1]+1)),
@@ -132,15 +132,15 @@ for(i in 1:(length(sampletypevalues)-1)) {
         result <- data[selected, ] 
         
         # Exporting the normalised results table containing the selected genes below the chosen threshold
-        print(paste("Exporting edgeR normalised table containing ONLY selected genes (adjusted P value <", pvalue, ") to: ", outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_edger_topGenesBelow", gsub("[.]", "", pvalue), ".csv", sep=""))
-        write.table(data.frame("name"=rownames(result), result), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_edger_topGenesBelow", gsub("[.]", "", pvalue), ".csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
+        print(paste("Exporting edgeR normalised table containing ONLY selected genes (adjusted P value <", pvalue, ") to: ", outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_topGenesBelow", gsub("[.]", "", pvalue), ".csv", sep=""))
+        write.table(data.frame("name"=rownames(result), result), file=paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_topGenesBelow", gsub("[.]", "", pvalue), ".csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
         # Exporting the normalised results table containing ALL genes
         print(paste("Exporting edgeR normalised table containing all genes to: ", outdir,"/",basename,"_edger_allGenes.csv", sep=""))
-        write.table(data.frame("name"=rownames(data), data), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_edger_allGenes.csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
+        write.table(data.frame("name"=rownames(data), data), file=paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_allGenes.csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
         
         # Exporting the generated matrix containing the mean normalised results per group per (ALL) gene
-        print(paste("Exporting edgeR mean normalised results per group per (all) gene to: ", outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_edger_meanGroupsAllGenes.csv", sep=""))
-        write.table(data.frame("name"=rownames(mean_ncounts_selected), mean_ncounts_selected), file=paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_edger_meanGroupsAllGenes.csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
+        print(paste("Exporting edgeR mean normalised results per group per (all) gene to: ", outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_meanGroupsAllGenes.csv", sep=""))
+        write.table(data.frame("name"=rownames(mean_ncounts_selected), mean_ncounts_selected), file=paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_meanGroupsAllGenes.csv", sep=""), sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
         
         
         # Expression plot
@@ -153,7 +153,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
           points(log2(res[ ,1]+1)[gn.selected], log2(res[ ,2]+1)[gn.selected], col="red", pch=20, cex=.8)
         }
         print("Average expression values of each condition and highlight the features declared as differentially expressed...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_edger_expressionPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_expressionPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         expression_plot(mean_ncounts_selected)
         dev.off()
         
@@ -166,7 +166,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
           with(subset(res, padj<=thresh), points(mean, log2FoldChange, col="red", pch=20, cex=.8))
         }
         print("Plotting the log2 fold changes against the mean normalised counts...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_edger_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         maplot(mean_ncounts_selected, 
                xlab = "mean of normalized counts", 
                ylab = "log2 fold change", 
@@ -188,7 +188,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
         resultedgeR$pch <- 19
         resultedgeR$pch[resultedgeR$padj == 0] <- 6
         print("Generating the volcano plot...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_edger_volcanoPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_volcanoPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         plot(resultedgeR$log2FoldChange,
              resultedgeR$sig,
              col=cols, panel.first=grid(),
