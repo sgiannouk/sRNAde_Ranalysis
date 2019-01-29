@@ -6,6 +6,7 @@
 # Input arguments and error control
 args <- commandArgs(TRUE)
 
+
 if (length(args) == 4) {
   if (!file.exists(args[1])) {
     cat("ERROR - The input matrix does NOT exist...\nEXITING!\n")
