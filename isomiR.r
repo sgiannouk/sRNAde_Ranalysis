@@ -9,6 +9,7 @@ if (!require("scales")){
 } 
 
 args <- commandArgs(TRUE)
+
 STATFILE <- args[1]
 GRAPHFILE <- args[2]
 
@@ -42,7 +43,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
     # Set up the page
     grid.newpage()
     pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
-
+  
     # Make each plot, in the correct location
     for (i in 1:numPlots) {
       # Get the i,j matrix positions of the regions that contain this subplot
@@ -65,8 +66,11 @@ png(
 
 
 
-p1<-ggplot(top, aes(x=name, y=wMean)) + geom_bar(stat="identity",color="black", fill="#009E73")+ylab("weighted isomiR fraction")+xlab("")+scale_x_discrete(limits=(as.vector(top$name)), label=comma)+th+ggtitle("Fraction of non-templated additions")
-p2<-ggplot(top, aes(x=name, y=mean)) + geom_bar(stat="identity",color="black", fill="#045FB4")+ylab("mean isomiR fraction per microRNA")+xlab("")+scale_x_discrete(limits=(as.vector(top$name)), label=comma)+th
+p1<-ggplot(top, aes(x=name, y=wMean)) + geom_bar(stat="identity",color="black", fill="#009E73") +ylab("weighted isomiR fraction")+xlab("") +th+ggtitle("Fraction of non-templated additions")
+p2<-ggplot(top, aes(x=name, y=mean)) + geom_bar(stat="identity",color="black", fill="#045FB4") +ylab("mean isomiR fraction per microRNA")+xlab("")+th
+
+# p1<-ggplot(top, aes(x=name, y=wMean)) + geom_bar(stat="identity",color="black", fill="#009E73")+ylab("weighted isomiR fraction")+xlab("")+scale_x_discrete(limits=(as.vector(top$name)), label=comma)+th+ggtitle("Fraction of non-templated additions")
+# p2<-ggplot(top, aes(x=name, y=mean)) + geom_bar(stat="identity",color="black", fill="#045FB4")+ylab("mean isomiR fraction per microRNA")+xlab("")+scale_x_discrete(limits=(as.vector(top$name)), label=comma)+th
 
 multiplot(p1, p2)
 

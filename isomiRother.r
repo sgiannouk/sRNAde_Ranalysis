@@ -9,6 +9,7 @@ if (!require("scales")){
 } 
 
 args <- commandArgs(TRUE)
+
 STATFILE <- args[1]
 GRAPHFILE <- args[2]
 
@@ -65,8 +66,12 @@ png(
 
 
 
-p1<-ggplot(top, aes(x=name, y=wMean)) + geom_bar(stat="identity",color="black", fill="#009E73")+ylab("weighted isomiR fraction")+xlab("")+scale_x_discrete(limits=(as.vector(top$name)),label=comma)+th+ggtitle("Fraction of 3’ and 5’ Length Variants")
-p2<-ggplot(top, aes(x=name, y=mean)) + geom_bar(stat="identity",color="black", fill="#045FB4")+ylab("mean isomiR fraction per microRNA")+xlab("")+scale_x_discrete(limits=(as.vector(top$name)),label=comma)+th
+p1<-ggplot(top, aes(x=name, y=wMean)) + geom_bar(stat="identity",color="black", fill="#009E73")+ylab("weighted isomiR fraction")+xlab("")+th+ggtitle("Fraction of 3’ and 5’ Length Variants")
+p2<-ggplot(top, aes(x=name, y=mean)) + geom_bar(stat="identity",color="black", fill="#045FB4")+ylab("mean isomiR fraction per microRNA")+xlab("")+th
+
+# p1<-ggplot(top, aes(x=name, y=wMean)) + geom_bar(stat="identity",color="black", fill="#009E73")+ylab("weighted isomiR fraction")+xlab("")+scale_x_discrete(limits=(as.vector(top$name)),label=comma)+th+ggtitle("Fraction of 3’ and 5’ Length Variants")
+# p2<-ggplot(top, aes(x=name, y=mean)) + geom_bar(stat="identity",color="black", fill="#045FB4")+ylab("mean isomiR fraction per microRNA")+xlab("")+scale_x_discrete(limits=(as.vector(top$name)),label=comma)+th
+
 
 multiplot(p1, p2)
 
