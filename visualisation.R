@@ -61,9 +61,13 @@ if (length(args) == 4) {
 # library("packrat")
 # packrat::init(packrat_path)
 library("edgeR")
+library("plotly")
 library("heatmaply")
 library("RColorBrewer")
 setwd(outdir)
+
+Sys.setenv("plotly_username"="sgiannouk")
+Sys.setenv("plotly_api_key"="MV5szwYMXkYMTiSifC1h")
 
 # Redirecting all output to a log file
 sink(paste(outdir, "/visualisation_", basename, ".log", sep=""), append = TRUE)
@@ -127,31 +131,26 @@ if (length(groups) < 100) {
 	        main = paste("Top",nrow(highly_variable),"most variable genes across samples",sep=" "), key.title=NULL, 
 	        col_side_colors = data.frame(groups), hide_colorbar = FALSE, column_text_angle=60, fontsize_col = 9,
 	        fontsize_row = 8,  showticklabels=c(TRUE,TRUE))
-  h <- heatmaply(highly_variable, #file = paste(outdir,"/",basename,"_heatmap_normalLog2CPM.png",sep =""),
+  heat_map <- heatmaply(highly_variable, #file = paste(outdir,"/",basename,"_heatmap_normalLog2CPM.png",sep =""),
           limits = NULL, xlab = "Samples", ylab = "Genes", colors = brewer.pal(11,"Spectral"), scale = "row",
           main = paste("Top",nrow(highly_variable),"most variable genes across samples",sep=" "), key.title=NULL, 
           col_side_colors = data.frame(groups), hide_colorbar = FALSE, column_text_angle=60, fontsize_col = 9,
           fontsize_row = 8,  showticklabels=c(TRUE,TRUE))
-  h$width <- 1200
-  h$height <- 800
-  export(h, file = paste(outdir,"/",basename,"_heatmap_normalLog2CPM.png",sep =""))
   
+
   } else {
 	# Heatmap of top selected genes, No sample-names 
 	heatmaply(highly_variable, # file = paste(outdir,"/",basename,"_heatmap_normalLog2CPM.html",sep =""),
 	          limits = NULL, xlab = "Samples", ylab = "Genes", colors = brewer.pal(11, "Spectral"), scale = "row",
 	          main = paste("Top",nrow(highly_variable),"most variable genes across samples",sep=" "), key.title=NULL, 
 	          col_side_colors = data.frame(groups), hide_colorbar = FALSE, showticklabels = c(FALSE, TRUE), fontsize_row = 8)
-  h <- heatmaply(highly_variable, file = paste(outdir,"/",basename,"_heatmap_normalLog2CPM.png",sep =""),
+  heat_map <- heatmaply(highly_variable, #file = paste(outdir,"/",basename,"_heatmap_normalLog2CPM.png",sep =""),
             limits = NULL, xlab = "Samples", ylab = "Genes", colors = brewer.pal(11, "Spectral"), scale = "row",
             main = paste("Top",nrow(highly_variable),"most variable genes across samples",sep=" "), key.title=NULL, 
-            col_side_colors = data.frame(groups), hide_colorbar = FALSE, showticklabels = c(FALSE, TRUE), fontsize_row = 8)  
-  h$width <- 1200
-  h$height <- 800
-  export(h, file = paste(outdir,"/",basename,"_heatmap_normalLog2CPM.png",sep =""))
-  
-}
+            col_side_colors = data.frame(groups), hide_colorbar = FALSE, showticklabels = c(FALSE, TRUE), fontsize_row = 8)
+  }
 
+plotly_IMAGE(heat_map, width = 1200, height = 800, format = "png", out_file = paste(outdir,"/",basename,"_heatmap_normalLog2CPM.png",sep =""))
 
 
 ### Heatmap generation is now being terminated...
