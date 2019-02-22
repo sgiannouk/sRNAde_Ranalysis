@@ -48,12 +48,12 @@ if (length(args) == 4) {
 }
 
 # packrat_path <- "/Users/stavris/R/packrat"
-matfile <- read.delim("/Users/stavris/R/projects/example_project/example_matrix.mat", header=TRUE, row.names=1)
-groups <- unlist(strsplit("cell,cell,cell,exosomes,exosomes,exosomes", ","))
-sampletypevalues <- rev(unique(groups))
-outdir <- "/Users/stavris/R/projects/example_project"
-basename <- "mature_sense_minExpr5_RCadj"
-n_top <- 0.125
+# matfile <- read.delim("/Users/stavris/R/projects/example_project/example_matrix.mat", header=TRUE, row.names=1)
+# groups <- unlist(strsplit("cell,cell,cell,exosomes,exosomes,exosomes", ","))
+# sampletypevalues <- rev(unique(groups))
+# outdir <- "/Users/stavris/R/projects/example_project"
+# basename <- "mature_sense_minExpr5_RCadj"
+# n_top <- 0.125
 # n_top <- 25
 
 # Initiating packrat environment and 
