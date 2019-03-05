@@ -28,7 +28,7 @@ for (val in row.names(input_table)) {
 }
 
 jpeg(output_path,width = 8, height = 5, units = 'in', res = 300)
-upset(fromList(l), nsets = 4,sets.bar.color = "#56B4E9", order.by = "freq")
+upset(fromList(l), nsets = 5,sets.bar.color = "#56B4E9", order.by = "freq")
 dev.off()
 
 # 
