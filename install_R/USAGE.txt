@@ -1,0 +1,12 @@
+Execute:
+
+sudo ./install_R.sh
+
+(It takes a while...)
+
+And...
+
+That's all folks! :-D
+
+Cheers!
+R.
