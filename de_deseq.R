@@ -1,4 +1,5 @@
 ### Stavros Giannoukakos ###
+library("Cairo")
 
 ### Notes: Script arguments: 1) <input matrix>.mat 2) <cs list of the groups> 3) path/to/project_folder 4) baseName 5) p-value 6) path/to/packrat_directory
 ### Example Command: Rscript DESeq.R matfile.mat cell,cell,cell,exosomes,exosomes,exosomes /projects/project_name mature_sense_minExpr5_RCadj 0.05 /projects/packrat
@@ -92,14 +93,14 @@ if(sum(duplicated(groups))<2) {
 
 # Plotting the per-gene dispersion estimates together with the fitted mean-dispersion relationship.
 print("Plotting the estimated dispersion...")
-png(paste(outdir,"/",basename,"_deseq_dispersionPlot.png",sep=""), units='px', height=900, width=1600, res=90)
+CairoPNG(paste(outdir,"/",basename,"_deseq_dispersionPlot.png",sep=""), units='px', height=900, width=1600, res=90)
 plotDispEsts(cds, xlab = "Mean of normalized counts", ylab = "Dispersion")
 title(main = "Dispersion Estimates")
 dev.off()
 
 # Standard deviation of the raw data, across samples, against the mean
 print("Plotting the mean stdv of the raw data...")
-png(paste(outdir,"/",basename,"_deseq_meanSD.png",sep=""), units='px', height=900, width=900, res=90)
+CairoPNG(paste(outdir,"/",basename,"_deseq_meanSD.png",sep=""), units='px', height=900, width=900, res=90)
 meanSdPlot <- meanSdPlot(log2(counts(cds, normalized=TRUE) + 1))
 meanSdPlot$gg + ggtitle("Standard deviation against the mean") + theme(plot.title = element_text(hjust = 0.5))
 dev.off()
@@ -159,7 +160,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
                points(log2(res[ ,1]+1)[gn.selected], log2(res[ ,2]+1)[gn.selected], col="red", pch=20, cex=.8)
         }
         print("Average expression values of each condition and highlight the features declared as differentially expressed...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_expressionPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        CairoPNG(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_expressionPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         expression_plot(mean_ncounts_selected)
         dev.off()
         
@@ -167,7 +168,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
         # Plotting the log2 fold changes against the mean normalised counts, colouring in red those
         # genes that are significant
         print("Plotting the log2 fold changes against the mean normalised counts...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        CairoPNG(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         plotMA(curresult, col = ifelse(curresult$padj>=pvalue, "gray32", "red3"), cex=.5, main="MAplot")
         abline(h=c(-1,1), col="dodgerblue", lwd=2)
         dev.off()
@@ -185,7 +186,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
         resultDESeq$pch <- 19
         resultDESeq$pch[resultDESeq$pvalue == 0] <- 6
         print("Generating the volcano plot...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_volcanoPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        CairoPNG(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_deseq_volcanoPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         plot(resultDESeq$log2FoldChange,
              resultDESeq$sig,
              col=cols, panel.first=grid(),

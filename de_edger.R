@@ -2,6 +2,7 @@
 
 ### Notes: Script arguments: 1) <input matrix>.mat 2) <cs list of the groups> 3) path/to/project_folder 4) baseName 5) p-value 6) path/to/packrat_directory
 ### Example Command: Rscript edgeR.R matfile.mat cell,cell,cell,exosomes,exosomes,exosomes /projects/project_name mature_sense_minExpr5_RCadj 0.05 /projects/packrat
+library("Cairo")
 
 # Input arguments and error control
 args <- commandArgs(TRUE)
@@ -153,7 +154,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
           points(log2(res[ ,1]+1)[gn.selected], log2(res[ ,2]+1)[gn.selected], col="red", pch=20, cex=.8)
         }
         print("Average expression values of each condition and highlight the features declared as differentially expressed...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_expressionPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        CairoPNG(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_expressionPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         expression_plot(mean_ncounts_selected)
         dev.off()
         
@@ -166,7 +167,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
           with(subset(res, padj<=thresh), points(mean, log2FoldChange, col="red", pch=20, cex=.8))
         }
         print("Plotting the log2 fold changes against the mean normalised counts...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        CairoPNG(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         maplot(mean_ncounts_selected, 
                xlab = "mean of normalized counts", 
                ylab = "log2 fold change", 
@@ -188,7 +189,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
         resultedgeR$pch <- 19
         resultedgeR$pch[resultedgeR$padj == 0] <- 6
         print("Generating the volcano plot...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_volcanoPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        CairoPNG(paste(outdir,"/",basename,"_",sampletypevalues[i],"VS",sampletypevalues[j],"_edger_volcanoPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         plot(resultedgeR$log2FoldChange,
              resultedgeR$sig,
              col=cols, panel.first=grid(),

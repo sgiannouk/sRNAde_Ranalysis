@@ -1,4 +1,5 @@
 #Input mappingStat.txt
+library("Cairo")
 
 if (!require("ggplot2")){ 
   install.packages("ggplot2", repos='http://cran.us.r-project.org') 
@@ -57,7 +58,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 
 
 
-png(
+CairoPNG(
   filename = GRAPHFILE, 
   width=1200, 
   height=1200,

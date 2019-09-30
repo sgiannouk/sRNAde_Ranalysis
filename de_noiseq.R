@@ -2,6 +2,7 @@
 
 ### Notes: Script arguments: 1) <input matrix>.mat 2) <cs list of the groups> 3) path/to/project_folder 4) baseName 5) NOISeq probab. value 6) path/to/packrat_directory
 ### Example Command: Rscript NOISeq.R matfile.mat cell,cell,cell,exosomes,exosomes,exosomes /projects/project_name mature_sense_minExpr5_RCadj 0.8 /projects/packrat
+library("Cairo")
 
 
 # Input arguments and error control
@@ -138,7 +139,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
         
         # Expression plot
         print("Average expression values of each condition and highlight the features declared as differentially expressed...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_expressionPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        CairoPNG(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_expressionPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         DE.plot(NOISeq, q = noiseq_prob, graphic = "expr", log.scale = TRUE, main="Average expression values of each condition\n(differentially expressed features are highlighted)")
         dev.off()
         
@@ -151,7 +152,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
           with(subset(res, prob>=thresh), points(mean, log2FoldChange, col="red", pch=20, cex=.8))
         }
         print("Plotting the log2 fold changes against the mean normalised counts...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        CairoPNG(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_maPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         maplot(mean_ncounts_selected, 
                xlab = "mean of normalized counts", 
                ylab = "log2 fold change", 
@@ -173,7 +174,7 @@ for(i in 1:(length(sampletypevalues)-1)) {
         resultNOISeq$pch <- 19
         resultNOISeq$pch[resultNOISeq$prob == 0] <- 6
         print("Generating the volcano plot...")
-        png(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_volcanoPlot.png",sep=""), units='px', height=900, width=1600, res=100)
+        CairoPNG(paste(outdir,"/",basename,"_",sampletypevalues[j],"VS",sampletypevalues[i],"_noiseq_volcanoPlot.png",sep=""), units='px', height=900, width=1600, res=100)
         plot(resultNOISeq$log2FoldChange,
              resultNOISeq$sig,
              col=cols, panel.first=grid(),

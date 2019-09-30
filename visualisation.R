@@ -1,4 +1,5 @@
 ### Stavros Giannoukakos ###
+library("Cairo")
 
 ### Notes: Script arguments: 1) <input matrix>.mat 2) <cs list of the groups> 3) path/to/project_folder 4) baseName 5) percentage/top_n_genes 6) title of heatmap within quotation marks
 ### Example Command: Rscript visualisation.R matfile.mat cell,cell,cell,exosomes,exosomes,exosomes /projects/project_name mature_sense_minExpr5_RCadj 0.1 "Top Genes"
@@ -101,7 +102,7 @@ if (length(sampletypevalues) == 2) {
 
 # Examine the distributions of the raw counts by plotting the log2CPM of the counts
 print("Checking the distribution of the read counts on the log2 scale...")
-png(paste(outdir,"/",basename,"_visualisation_Log2DistPlot.png",sep=""), units='px', height=900, width=1600, res=90)
+CairoPNG(paste(outdir,"/",basename,"_visualisation_Log2DistPlot.png",sep=""), units='px', height=900, width=1600, res=90)
 # Check distributions of samples using boxplots
 par(mar=c(8.1, 4.1, 4.1, 2.1))
 boxplot(cpm(data$counts, prior.count=2, log=TRUE),col=col_condition, xlab="", ylab="Log2 counts per million", las=2)
@@ -114,7 +115,7 @@ dev.off()
 # If the experiment is well controlled and has worked well, what we hope to see is that the greatest sources of variation are the 
 # treatments/groups we are interested in. It is also an incredibly useful tool for quality control and checking for outliers.
 print("Creating the MultiDimensional Scaling plot...") 
-png(paste(outdir,"/",basename,"_visualisation_plotMDS.png",sep=""), units='px', height=900, width=1600, res=90)
+CairoPNG(paste(outdir,"/",basename,"_visualisation_plotMDS.png",sep=""), units='px', height=900, width=1600, res=90)
 plotMDS(data, col=col_condition)
 title(main = "MultiDimensional Scaling plot\n(distances approximate the log2 fold changes between the samples)")
 dev.off()
